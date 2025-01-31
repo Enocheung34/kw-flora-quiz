@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KIN WING & FLORA's Disney Love Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #ff99cc, #ff66b2);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #ff1a75;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        .question-container {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        button {
+            background: #ff66b2;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #ff1a75;
+        }
+
+        .result {
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .progress {
+            background: #f0f0f0;
+            height: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            background: #ff66b2;
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.3s ease;
+        }
+
+        .disney-border {
+            border: 2px solid #ff99cc;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💑 KIN WING & FLORA's Disney Love Quiz 💕</h1>
+        <div class="progress">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+        <div class="question-container">
+            <div id="question" class="disney-border"></div>
+            <div class="options" id="options"></div>
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "就像樂佩公主(Rapunzel)終於離開高塔，KIN WING & FLORA將開展新的冒險。請問他們即將在哪裡舉行婚禮？",
+                options: ["香港", "加拿大", "澳洲", "日本"],
+                correct: 1
+            },
+            {
+                question: "就像《美女與野獸》中的貝兒喜歡閱讀，KIN WING & FLORA是在什麼場合認識的？",
+                options: ["教會", "大學", "工作場所", "共同朋友聚會"],
+                correct: 0
+            },
+            {
+                question: "就像灰姑娘的水晶鞋，每對情侶都有專屬的浪漫故事。KIN WING是在什麼時候向FLORA求婚的？",
+                options: ["聖誕節", "生日派對", "旅行時", "平常的一天"],
+                correct: 2
+            },
+            {
+                question: "像小美人魚愛麗兒一樣勇敢追夢，FLORA最大的夢想是什麼？",
+                options: ["環遊世界", "開設自己的店", "定居加拿大", "成為一位藝術家"],
+                correct: 2
+            },
+            {
+                question: "就像《魔雪奇緣》中的安娜和愛莎，友情和愛情一樣重要。誰是他們的主婚人？",
+                options: ["大學同學", "教會朋友", "家人", "童年好友"],
+                correct: 1
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function showQuestion() {
+            const questionContainer = document.querySelector('.question-container');
+            questionContainer.innerHTML = `
+                <div id="question" class="disney-border"></div>
+                <div class="options" id="options"></div>
+            `;
+
+            const question = questions[currentQuestion];
+            document.getElementById('question').textContent = question.question;
+            
+            const optionsHtml = question.options.map((option, index) => 
+                `<button onclick="checkAnswer(${index})">${option}</button>`
+            ).join('');
+            
+            document.getElementById('options').innerHTML = optionsHtml;
+            updateProgress();
+        }
+
+        function checkAnswer(answer) {
+            const question = questions[currentQuestion];
+            if (answer === question.correct) {
+                score++;
+            }
+
+            currentQuestion++;
+
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function updateProgress() {
+            const progress = (currentQuestion / questions.length) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+        }
+
+        function showResult() {
+            const percentage = (score / questions.length) * 100;
+            let message = '';
+
+            if (percentage === 100) {
+                message = "太棒了！你是KIN WING & FLORA的超級好朋友！🌟";
+            } else if (percentage >= 80) {
+                message = "真不錯！你很了解這對新人呢！💝";
+            } else if (percentage >= 60) {
+                message = "做得好！繼續了解這對新人吧！💗";
+            } else {
+                message = "謝謝參與！讓我們一起祝福新人！💖";
+            }
+
+            document.querySelector('.question-container').innerHTML = `
+                <div class="disney-border">
+                    <h2>遊戲結束！</h2>
+                    <p>你的得分: ${score}/${questions.length}</p>
+                    <p>${message}</p>
+                </div>
+                <button onclick="restartQuiz()">重新開始</button>
+            `;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('progress').style.width = '0%';
+            showQuestion();
+        }
+
+        showQuestion();
+    </script>
+</body>
+</html>
