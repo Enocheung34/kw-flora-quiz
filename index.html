@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KIN WING & FLORA's Disney Love Quiz</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -111,6 +112,11 @@
             padding: 8px 15px;
         }
 
+        #qrcode {
+            text-align: center;
+            margin-top: 20px;
+        }
+
         .hidden {
             display: none;
         }
@@ -135,6 +141,8 @@
             </div>
             <div class="result" id="result"></div>
         </div>
+
+        <div id="qrcode"></div>
     </div>
 
     <script>
@@ -145,19 +153,19 @@
                 correct: 1
             },
             {
-                question: "就像《阿拉丁》中，阿拉丁和茉莉公主在市集偶遇，KIN WING & FLORA是在什麼場合認識的？",
+                question: "就像《美女與野獸》中的貝兒喜歡閱讀，KIN WING & FLORA是在什麼場合認識的？",
                 options: ["教會", "大學", "工作場所", "共同朋友聚會"],
                 correct: 0
             },
             {
-                question: "就像《魔雪奇緣》中的安娜第一次遇見克里斯托夫時在山上的小木屋，KIN WING是在什麼時候向FLORA求婚的？",
+                question: "就像灰姑娘的水晶鞋，每對情侶都有專屬的浪漫故事。KIN WING是在什麼時候向FLORA求婚的？",
                 options: ["聖誕節", "生日派對", "旅行時", "平常的一天"],
                 correct: 2
             },
             {
                 question: "像小美人魚愛麗兒一樣勇敢追夢，FLORA最大的夢想是什麼？",
-                options: ["環遊世界", "開設自己的店", "成為一位藝術家", "經營婚禮策劃"],
-                correct: 1
+                options: ["環遊世界", "開設自己的店", "定居加拿大", "成為一位藝術家"],
+                correct: 2
             },
             {
                 question: "就像《魔雪奇緣》中的安娜和愛莎，友情和愛情一樣重要。誰是他們的主婚人？",
@@ -238,6 +246,8 @@
                     <button onclick="restartQuiz()">重新開始</button>
                 </div>
             `;
+
+            generateQRCode();
         }
 
         function shareResult() {
@@ -255,12 +265,23 @@
             }
         }
 
+        function generateQRCode() {
+            const qrcodeDiv = document.getElementById('qrcode');
+            qrcodeDiv.innerHTML = '';
+            new QRCode(qrcodeDiv, {
+                text: window.location.href,
+                width: 128,
+                height: 128
+            });
+        }
+
         function restartQuiz() {
             currentQuestion = 0;
             score = 0;
             document.getElementById('progress').style.width = '0%';
             document.getElementById('player-section').classList.remove('hidden');
             document.getElementById('quiz-section').classList.add('hidden');
+            document.getElementById('qrcode').innerHTML = '';
         }
     </script>
 </body>
